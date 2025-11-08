@@ -31,6 +31,23 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
   const dessertCount = dishes.filter(dish => dish.course === "Dessert").length;
   const totalMenuValue = dishes.reduce((total, dish) => total + dish.price, 0);
 
+  // Calculate average prices by course
+  const calculateAveragePrice = (course: CourseType) => {
+    const courseDishes = dishes.filter(dish => dish.course === course);
+    if (courseDishes.length === 0) return 0;
+    const total = courseDishes.reduce((sum, dish) => sum + dish.price, 0);
+    return total / courseDishes.length;
+  };
+
+  const averageStarterPrice = calculateAveragePrice("Starter");
+  const averageMainCoursePrice = calculateAveragePrice("Main Course");
+  const averageDessertPrice = calculateAveragePrice("Dessert");
+
+  // Format currency
+  const formatCurrency = (amount: number) => {
+    return `R${amount.toFixed(2)}`;
+  };
+
   return (
     <View style={styles.screenContainer}>
       {/* Header with Logo and Greeting */}
@@ -69,6 +86,31 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
           <View style={styles.categoryStatItem}>
             <View style={[styles.categoryDot, { backgroundColor: "#66BB6A" }]} />
             <Text style={styles.categoryStatText}>Desserts: {dessertCount}</Text>
+          </View>
+        </View>
+
+        {/* Average Prices by Course */}
+        <View style={styles.averagePricesSection}>
+          <Text style={styles.averagePricesTitle}>Average Prices by Course</Text>
+          <View style={styles.averagePricesContainer}>
+            <View style={styles.averagePriceItem}>
+              <Text style={styles.averagePriceLabel}>Starters</Text>
+              <Text style={styles.averagePriceValue}>
+                {starterCount > 0 ? formatCurrency(averageStarterPrice) : "N/A"}
+              </Text>
+            </View>
+            <View style={styles.averagePriceItem}>
+              <Text style={styles.averagePriceLabel}>Main Courses</Text>
+              <Text style={styles.averagePriceValue}>
+                {mainCourseCount > 0 ? formatCurrency(averageMainCoursePrice) : "N/A"}
+              </Text>
+            </View>
+            <View style={styles.averagePriceItem}>
+              <Text style={styles.averagePriceLabel}>Desserts</Text>
+              <Text style={styles.averagePriceValue}>
+                {dessertCount > 0 ? formatCurrency(averageDessertPrice) : "N/A"}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -205,6 +247,7 @@ const styles = StyleSheet.create({
   categoryStats: {
     flexDirection: "row",
     justifyContent: "space-around",
+    marginBottom: 16,
   },
   categoryStatItem: {
     flexDirection: "row",
@@ -219,6 +262,38 @@ const styles = StyleSheet.create({
   categoryStatText: {
     fontSize: 12,
     color: "#7f8c8d",
+  },
+  averagePricesSection: {
+    marginTop: 16,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#ecf0f1",
+  },
+  averagePricesTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#2c3e50",
+    marginBottom: 12,
+    textAlign: "center",
+  },
+  averagePricesContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  averagePriceItem: {
+    alignItems: "center",
+    flex: 1,
+  },
+  averagePriceLabel: {
+    fontSize: 12,
+    color: "#7f8c8d",
+    marginBottom: 4,
+    textAlign: "center",
+  },
+  averagePriceValue: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#27ae60",
   },
   actionsContainer: {
     backgroundColor: "#ffffff",
