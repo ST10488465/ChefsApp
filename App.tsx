@@ -28,7 +28,7 @@ type Dish = {
 
 type ScreenType = "home" | "addDish" | "viewMenu";
 
-// Initial menu items
+// Initial menu items (hardcoded array)
 const initialMenu: Dish[] = [
   {
     id: "1",
@@ -130,6 +130,11 @@ export default function App() {
     setDishes(prev => [newDish, ...prev]);
   };
 
+  // Function to delete a dish
+  const handleDeleteDish = (dishId: string) => {
+    setDishes(prev => prev.filter(dish => dish.id !== dishId));
+  };
+
   // Main render with navigation
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -156,11 +161,14 @@ export default function App() {
             />
           )}
           {currentScreen === "viewMenu" && (
-            <ViewMenuScreen dishes={dishes} />
+            <ViewMenuScreen 
+              dishes={dishes} 
+              onDeleteDish={handleDeleteDish}
+            />
           )}
         </ScrollView>
 
-        {/* Enhanced Bottom Navigation */}
+        {/* Bottom Navigation */}
         <View style={styles.bottomNavWrapper}>
           <View style={styles.bottomNav}>
             <NavButton 

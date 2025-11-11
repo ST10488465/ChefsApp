@@ -54,7 +54,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({
       <View style={styles.headerContainer}>
         <View style={styles.logoContainer}>
           <Image source={restaurantLogo} style={styles.logo} />
-          <Text style={styles.appTitle}>🍽️ Menu Manager</Text>
+          <Text style={styles.appTitle}>Menu Manager</Text>
         </View>
         <Text style={styles.greeting}>Welcome, Chef Christoffel!</Text>
         <Text style={styles.subtitle}>Manage your restaurant menu with ease</Text>
